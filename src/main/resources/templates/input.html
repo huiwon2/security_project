@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>전자봉투 문서 입력</title>
+</head>
+<body>
+    <div align="center">
+        <form action="/encryption" th:object="${text}" method="post">
+            <label th:for="name">전자봉투에 담을 텍스트: </label>
+            <input type="text" th:field="*{text}" placeholder="텍스트를 입력하세요(100byte 이하)"/>
+        </form>
+    </div>
+</body>
+</html>
