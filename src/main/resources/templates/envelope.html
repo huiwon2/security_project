@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>키 생성하기</title>
+    <style>
+        .container {
+            padding: 20px;
+        }
+        h2 {
+            background-color: #dddddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        .form-container input[type="text"] {
+            padding: 10px;
+            width: 50%;
+        }
+        .form-container input[type="text"]::placeholder {
+            opacity: 0.5;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .button {
+            background-color: #dddddd;
+            padding: 10px 20px;
+            border: 2px solid #dddddd;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>전자봉투 만들기</h2>
+    <div class="form-container">
+        <input type="text" th:placeholder="100byte 내로 입력하세요">
+        <a href="#" class="button">텍스트 입력</a>
+    </div>
+    <div class="form-container">
+        <input type="text" th:placeholder="비밀키를 입력하세요">
+        <a href="#" class="button">비밀키 입력</a>
+    </div>
+    <div class="form-container">
+        <input type="text" th:placeholder="생성할 파일 이름을 입력하세요">
+        <a href="#" class="button">전자봉투 생성</a>
+    </div>
+</div>
+</body>
+</html>
