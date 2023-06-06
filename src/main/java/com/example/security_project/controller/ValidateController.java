@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.crypto.KeyGenerator;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.security.*;
 
 @Controller
@@ -22,7 +20,7 @@ public class ValidateController {
     @PostMapping("/validate")
     public String ValidateDocument(@RequestParam("data") String data,
                                    @RequestParam("secretKey") String secretKeyFileName,
-                                   @RequestParam("privateKey") String privateKeyFileName,
+                                   @RequestParam("publiKey") String publicKeyFileName,
                                    @RequestParam("envelopeFileName") String envelopeFileName,
                                    Model model) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
         String keyAlgorithm = "RSA";
@@ -52,7 +50,7 @@ public class ValidateController {
         }
         Key secretKey;
 
-        //        bufferData => data의 byte타입으로 변환
+//        bufferData => data의 byte타입으로 변환
         byte[] bufferData = data.getBytes();
 //        signature 생성하기
         Signature signature;
@@ -65,6 +63,21 @@ public class ValidateController {
 
         saveSignatureFile(sign, signatureName);
 
+        //        공개키 읽어들이기
+        try(FileInputStream fileInputStream = new FileInputStream(publicKeyFileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+            publicKey = (PublicKey) objectInputStream.readObject();
+//        서명 검증
+            signature_verify = Signature.getInstance(signAlgorithm);
+            signature_verify.initVerify(publicKey);
+            signature_verify.update(bufferData);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void saveSignatureFile(byte[] signature, String fileName) throws IOException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
