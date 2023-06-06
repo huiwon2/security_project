@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EnvelopeController {
     @RequestMapping("/envelope")
-    public String Input(){
-        return "";
+    public String Envelope(){
+        return "/envelope";
     }
 }
