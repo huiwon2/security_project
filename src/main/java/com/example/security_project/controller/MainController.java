@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MainController {
     @GetMapping("/")
     public String home() {
-        return "home"; // home.html을 렌더링하여 응답으로 보냄
+        return "home.html"; // home.html을 렌더링하여 응답으로 보냄
     }
 
     @GetMapping("/key")
