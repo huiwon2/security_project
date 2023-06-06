@@ -57,8 +57,6 @@ public class KeyController {
             e.printStackTrace();
         }
 
-
-
         return "키 생성이 완료되었습니다.";
     }
 
