@@ -57,8 +57,13 @@
     </div>
     <br>
     <div class="button-container">
-        <button href="home" class="button">홈으로</button>
+        <button href="home" class="button" onclick="redirectToHome()">홈으로</button>
     </div>
 </div>
+<script>
+    function redirectToHome() {
+        window.location.href = "home"; // MainController의 home() 메서드로 리다이렉트
+    }
+</script>
 </body>
 </html>
