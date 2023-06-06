@@ -18,11 +18,11 @@ public class EnvelopeController {
     public EnvelopeController() throws IOException {
     }
 
-    @RequestMapping("/envelope")
+    @RequestMapping("envelope")
     public String Envelope(){
         return "/envelope";
     }
-    @PostMapping("/envelope")
+    @PostMapping("envelope")
     public String EnvelopeDocument(@RequestParam("data") String data,
                                    @RequestParam("secretKey") String secretKeyFileName,
                                    @RequestParam("privateKey") String privateKeyFileName,
