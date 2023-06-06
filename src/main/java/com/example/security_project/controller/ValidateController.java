@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import java.io.*;
 import java.security.*;
 
@@ -63,9 +66,9 @@ public class ValidateController {
 
         saveSignatureFile(sign, signatureName);
 
-        //        공개키 읽어들이기
-        try(FileInputStream fileInputStream = new FileInputStream(publicKeyFileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+//        공개키 읽어들이기
+        try (FileInputStream fileInputStream = new FileInputStream(publicKeyFileName);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             publicKey = (PublicKey) objectInputStream.readObject();
 //        서명 검증
             signature_verify = Signature.getInstance(signAlgorithm);
@@ -74,12 +77,48 @@ public class ValidateController {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+//        대칭키 읽어들이기
+        try (FileInputStream fileInputStream = new FileInputStream(secretKeyFileName);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            secretKey = (Key) objectInputStream.readObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        byte[] signatureBuffer = new byte[128];
+
+//        cipher 객체
+        Cipher cipher;
+        try {
+            cipher = Cipher.getInstance("DES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchPaddingException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+
+//      서명 정보 출력하기(복호화 후 출력)
+        try (FileInputStream fis = new FileInputStream(envelopeFileName);
+             CipherInputStream cis = new CipherInputStream(fis, cipher);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[128];
+            int bytesRead;
+            while ((bytesRead = cis.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesRead);
+            }
+            byte[] decryptedData = baos.toByteArray();
+        }
+
     }
-    private void saveSignatureFile(byte[] signature, String fileName) throws IOException {
+    private void saveSignatureFile ( byte[] signature, String fileName) throws IOException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             objectOutputStream.writeObject(signature);
