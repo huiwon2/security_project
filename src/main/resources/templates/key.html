@@ -46,19 +46,19 @@
     <form th:action="@{/key}" method="post">
         <div class="form-container">
             <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}"> <!-- 수정 -->
-            <a href="#" class="button">개인키 생성</a>
+            <button href="#" class="button">개인키 생성</button>
         </div>
         <div class="form-container">
             <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}"> <!-- 수정 -->
-            <a href="#" class="button">공개키 생성</a>
+            <button href="#" class="button">공개키 생성</button>
         </div>
         <div class="form-container">
             <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}"> <!-- 수정 -->
-            <a href="#" class="button">비밀키 생성</a>
+            <button href="#" class="button">비밀키 생성</button>
         </div>
         <br>
         <div class="button-container">
-            <a href="home" class="button">홈으로</a>
+            <button href="home" class="button">홈으로</button>
         </div>
     </form>
 
