@@ -14,7 +14,7 @@ import java.security.*;
 
 @Controller
 public class KeyController {
-    @GetMapping("/")
+    @GetMapping("/key")
     public String key() {
         return "/key"; // key.html을 렌더링하여 응답으로 보냄
     }
@@ -66,8 +66,8 @@ public class KeyController {
             objectOutputStream.writeObject(key);
         }
     }
-    @GetMapping("/home")
-    public String redirectToHome() {
-        return "redirect:/home.html"; // "/home.html"로 리다이렉트
-    }
+//    @GetMapping("/home")
+//    public String redirectToHome() {
+//        return "redirect:/home.html"; // "/home.html"로 리다이렉트
+//    }
 }

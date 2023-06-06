@@ -117,8 +117,8 @@ public class EnvelopeController {
         return "전자봉투 생성이 완료되었습니다";
     }
 
-    @GetMapping("/home")
-    public String redirectToHome() {
-        return "redirect:/home.html"; // "/home.html"로 리다이렉트
-    }
+//    @GetMapping("/home")
+//    public String redirectToHome() {
+//        return "redirect:/home.html"; // "/home.html"로 리다이렉트
+//    }
 }
