@@ -14,10 +14,10 @@ import java.security.*;
 
 @Controller
 public class KeyController {
-    @GetMapping("/key")
-    public String key() {
-        return "/key"; // key.html을 렌더링하여 응답으로 보냄
-    }
+//    @GetMapping("/key")
+//    public String key() {
+//        return "/key"; // key.html을 렌더링하여 응답으로 보냄
+//    }
     @PostMapping("/key")
     public String generateKeys(@RequestParam("secretKey") String secretKeyFileName,
                                @RequestParam("privateKey") String privateKeyFileName,
