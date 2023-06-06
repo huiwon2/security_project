@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.crypto.KeyGenerator;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 
 @Controller
 public class KeyController {
@@ -19,12 +19,44 @@ public class KeyController {
         return "/key"; // key.html을 렌더링하여 응답으로 보냄
     }
     @PostMapping("/key")
-    public String generateKeys(@RequestParam("privateKey") String privateKey,
-                               @RequestParam("publicKey") String publicKey,
-                               @RequestParam("secretKey") String secretKey,
+    public String generateKeys(@RequestParam("privateKey") String privateKeyFileName,
+                               @RequestParam("publicKey") String publicKeyFileName,
+                               @RequestParam("secretKey") String secretKeyFileName,
                                Model model){
 //        공개키, 개인키 생성하기
+        try {
+            // KeyPairGenerator를 사용하여 키 생성
+            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+            keyPairGen.initialize(1024);
+            KeyPair keyPair = keyPairGen.generateKeyPair();
+
+            PublicKey publicKey = keyPair.getPublic();
+            PrivateKey privateKey = keyPair.getPrivate();
+
+//          개인키 저장
+            saveKeyToFile(privateKey, privateKeyFileName);
+
+//          공개키 저장
+            saveKeyToFile(publicKey, publicKeyFileName);
+
+            model.addAttribute("message", "개인키와 공개키 생성이 완료되었습니다.");
+        } catch (NoSuchAlgorithmException | IOException e) {
+            model.addAttribute("message", "키 생성 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+
 //        대칭키 생성하기
+        try{
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
+            keyGenerator.init(56);
+            Key secretKey = keyGenerator.generateKey();
+
+            saveKeyToFile(secretKey, secretKeyFileName);
+//         대칭키 저장하기
+        }catch (NoSuchAlgorithmException | IOException e){
+            model.addAttribute("message", "키 생성 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
 
         return "키 생성이 완료되었습니다.";
     }
