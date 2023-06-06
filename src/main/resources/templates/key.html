@@ -43,26 +43,58 @@
 <body>
 <div class="container">
     <h2>키 생성하기</h2>
-    <form th:action="@{/key}" method="post">
+    <form th:action="@{/key}" method="post" id="keyForm">
         <div class="form-container">
-            <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}"> <!-- 수정 -->
-            <button href="#" class="button">개인키 생성</button>
+            <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}">
+            <button class="button" onclick="generatePrivateKey()">개인키 생성</button>
         </div>
         <div class="form-container">
-            <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}"> <!-- 수정 -->
-            <button href="#" class="button">공개키 생성</button>
+            <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}">
+            <button class="button" onclick="generatePublicKey()">공개키 생성</button>
         </div>
         <div class="form-container">
-            <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}"> <!-- 수정 -->
-            <button href="#" class="button">비밀키 생성</button>
+            <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}">
+            <button class="button" onclick="generateSecretKey()">비밀키 생성</button>
         </div>
         <br>
         <div class="button-container">
-            <button href="home" class="button">홈으로</button>
+            <button class="button" onclick="redirectToHome()">홈으로</button>
         </div>
     </form>
-
-
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    function redirectToHome() {
+        window.location.href = "/home"; // MainController의 home() 메서드로 리다이렉트
+    }
+
+    function generatePrivateKey() {
+        generateKey("privateKey");
+    }
+
+    function generatePublicKey() {
+        generateKey("publicKey");
+    }
+
+    function generateSecretKey() {
+        generateKey("secretKey");
+    }
+
+    function generateKey(keyType) {
+        $.ajax({
+            type: "POST",
+            url: "/key",
+            data: $("#keyForm").serialize(),
+            success: function(response) {
+                // 키 생성 성공 시 처리
+                alert(keyType + " 생성이 완료되었습니다.");
+            },
+            error: function(xhr, status, error) {
+                // 키 생성 실패 시 처리
+                alert("키 생성 중 오류가 발생했습니다.");
+                console.error(error);
+            }
+        });
+    }
+</script>
 </body>
 </html>
