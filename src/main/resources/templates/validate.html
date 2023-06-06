@@ -44,20 +44,20 @@
 <div class="container">
     <h2>전자봉투 검증하기</h2>
     <div class="form-container">
-        <input type="text" name="data" th:placeholder="100byte 내로 입력하세요">
-        <a href="#" class="button">텍스트 입력</a>
+        <input type="text" name="data" th:placeholder="#{placeholder.inputText}">
+        <button href="#" class="button">텍스트 입력</button>
     </div>
     <div class="form-container">
-        <input type="text" name="publicKey" th:placeholder="공개키를 입력하세요">
-        <a href="#" class="button">공개키 입력</a>
+        <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}">
+        <button href="#" class="button">공개키 입력</button>
     </div>
     <div class="form-container">
-        <input type="text" name="envelopeFileName" th:placeholder="검증할 파일 이름을 입력하세요">
-        <a href="#" class="button">전자봉투 검증</a>
+        <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.validatefileName}">
+        <button href="#" class="button">전자봉투 검증</button>
     </div>
     <br>
     <div class="button-container">
-        <a href="home.html" class="button">홈으로</a>
+        <button href="home" class="button">홈으로</button>
     </div>
 </div>
 </body>

@@ -26,25 +26,17 @@
         .form-container input[type="text"]::placeholder {
             opacity: 0.5;
         }
-        .text-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .button-container {
+            text-align: center;
         }
-        .text-container .text-box {
+        .button {
             background-color: #dddddd;
             padding: 10px 20px;
             border: 2px solid #dddddd;
             border-radius: 10px;
+            text-decoration: none;
             color: black;
             font-weight: bold;
-            min-width: 200px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
         }
         .home-button {
             display: inline-block;
@@ -63,31 +55,31 @@
     <h2>전자봉투 만들기</h2>
     <div class="form-container">
         <div class="text-container">
-            <input type="text" name="data" th:placeholder="100byte 내로 입력하세요" style="width: 400px;">
-            <div class="text-box">텍스트 입력</div>
+            <input type="text" name="data" th:placeholder="#{placeholder.inputText}" style="width: 400px;">
+            <button href="#" class="button">텍스트 입력</button>
         </div>
     </div>
     <div class="form-container">
         <div class="text-container">
-            <input type="text" name="privateKey" th:placeholder="비밀키를 입력하세요" style="width: 400px;">
-            <div class="text-box">비밀키 입력</div>
+            <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}" style="width: 400px;">
+            <button href="#" class="button">비밀키 입력</button>
         </div>
     </div>
     <div class="form-container">
         <div class="text-container">
-            <input type="text" name="secretKey" th:placeholder="대칭키를 입력하세요" style="width: 400px;">
-            <div class="text-box">대칭키 입력</div>
+            <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}" style="width: 400px;">
+            <button href="#" class="button">대칭키 입력</button>
         </div>
     </div>
     <div class="form-container">
         <div class="text-container">
-            <input type="text" name="envelopeFileName" th:placeholder="생성할 파일 이름을 입력하세요" style="width: 400px;">
-            <div class="text-box">전자봉투 생성</div>
+            <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.envelopefileName}" style="width: 400px;">
+            <button href="#" class="button">전자봉투 생성</button>
         </div>
     </div>
     <br>
     <div class="button-container">
-        <a href="home.html" class="home-button">홈으로</a>
+        <button href="home" class="home-button">홈으로</button>
     </div>
 </div>
 </body>
