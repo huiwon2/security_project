@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.crypto.KeyGenerator;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -59,7 +60,9 @@ public class KeyController {
     }
 
     private void saveKeyToFile(Object key, String fileName) throws IOException {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+        File file = new File(fileName);
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             objectOutputStream.writeObject(key);
         }
