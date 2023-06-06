@@ -43,22 +43,25 @@
 <body>
 <div class="container">
     <h2>키 생성하기</h2>
-    <div class="form-container">
-        <input type="text" th:placeholder="개인키를 입력하세요">
-        <a href="#" class="button">개인키 생성</a>
-    </div>
-    <div class="form-container">
-        <input type="text" th:placeholder="공개키를 입력하세요">
-        <a href="#" class="button">공개키 생성</a>
-    </div>
-    <div class="form-container">
-        <input type="text" th:placeholder="비밀키를 입력하세요">
-        <a href="#" class="button">비밀키 생성</a>
-    </div>
-    <br>
-    <div class="button-container">
-        <a href="/home.html" class="button">홈으로</a>
-    </div>
+    <form th:action="@{/generateKeys}" method="post">
+        <div class="form-container">
+            <input type="text" name="privateKey" th:placeholder="개인키를 입력하세요">
+            <a href="#" class="button">개인키 생성</a>
+        </div>
+        <div class="form-container">
+            <input type="text" name="publicKey" th:placeholder="공개키를 입력하세요">
+            <a href="#" class="button">공개키 생성</a>
+        </div>
+        <div class="form-container">
+            <input type="text" name="secretKey" th:placeholder="비밀키를 입력하세요">
+            <a href="#" class="button">비밀키 생성</a>
+        </div>
+        <br>
+        <div class="button-container">
+            <a href="/home.html" class="button">홈으로</a>
+        </div>
+    </form>
+
 </div>
 </body>
 </html>
