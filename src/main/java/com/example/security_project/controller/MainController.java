@@ -13,24 +13,24 @@ import java.io.IOException;
 
 @Controller
 public class MainController {
-    @GetMapping("/")
+    @GetMapping("home")
     public String home() {
-        return "home.html"; // home.html을 렌더링하여 응답으로 보냄
+        return "home"; // home.html을 렌더링하여 응답으로 보냄
     }
 
-    @GetMapping("/key")
+    @GetMapping("key")
     public String redirectToKeyPage() {
-        return "redirect:/key.html"; // "/key.html"로 리다이렉트
+        return "key"; // "/key.html"로 리다이렉트
     }
 
-    @GetMapping("/envelope")
+    @GetMapping("envelope")
     public String redirectToEnvelopePage() {
-        return "redirect:/envelope.html"; // "/envelope.html"로 리다이렉트
+        return "envelope"; // "/envelope.html"로 리다이렉트
     }
 
-    @GetMapping("/validate")
+    @GetMapping("validate")
     public String redirectToValidatePage() {
-        return "redirect:/validate.html"; // "/validate.html"로 리다이렉트
+        return "validate"; // "/validate.html"로 리다이렉트
     }
     @GetMapping("/static/cat1.png")
     @ResponseBody

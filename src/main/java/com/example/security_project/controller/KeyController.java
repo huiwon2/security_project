@@ -28,11 +28,11 @@ public class KeyController {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("DES");
             keyGenerator.init(56);
             Key secretKey = keyGenerator.generateKey();
-
-            saveKeyToFile(secretKey, secretKeyFileName);
 //         대칭키 저장하기
+            saveKeyToFile(secretKey, secretKeyFileName);
+            model.addAttribute("대칭키 생성 완료", "대칭키 생성이 완료되었습니다.");
         }catch (NoSuchAlgorithmException | IOException e){
-            model.addAttribute("message", "키 생성 중 오류가 발생했습니다.");
+            model.addAttribute("대칭키 생성 오류", "키 생성 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
 //        공개키, 개인키 생성하기
@@ -51,13 +51,13 @@ public class KeyController {
 //          공개키 저장
             saveKeyToFile(publicKey, publicKeyFileName);
 
-            model.addAttribute("message", "개인키와 공개키 생성이 완료되었습니다.");
+            model.addAttribute("개인키, 공개키 생성 완료", "개인키와 공개키 생성이 완료되었습니다.");
         } catch (NoSuchAlgorithmException | IOException e) {
-            model.addAttribute("message", "키 생성 중 오류가 발생했습니다.");
+            model.addAttribute("개인키, 공개키 생성 오류", "키 생성 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
 
-        return "키 생성이 완료되었습니다.";
+        return "key";
     }
 
     private void saveKeyToFile(Object key, String fileName) throws IOException {

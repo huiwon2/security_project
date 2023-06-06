@@ -15,11 +15,11 @@ import java.security.*;
 
 @Controller
 public class ValidateController {
-    @RequestMapping("/validate")
+    @RequestMapping("validate")
     public String Validate(){
         return "/validate";
     }
-    @PostMapping("/validate")
+    @PostMapping("validate")
     public String ValidateDocument(@RequestParam("data") String data,
                                    @RequestParam("secretKey") String secretKeyFileName,
                                    @RequestParam("publiKey") String publicKeyFileName,
@@ -120,7 +120,7 @@ public class ValidateController {
 //                System.out.println("서명 검증 결과: " + result);
                 String verificationResult = "서명 검증 결과: " + result;
                 model.addAttribute("verificationResult", verificationResult);
-                return verificationResult;
+                return "validate";
             } catch (SignatureException e) {
                 throw new RuntimeException(e);
             }
