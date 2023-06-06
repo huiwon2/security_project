@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.crypto.KeyGenerator;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.security.*;
 
 @Controller
@@ -32,7 +29,7 @@ public class KeyController {
 //         대칭키 저장하기
             saveKeyToFile(secretKey, secretKeyFileName);
 
-        }catch (NoSuchAlgorithmException | IOException e){
+        }catch (NoSuchAlgorithmException e){
             e.printStackTrace();
         }
 //        공개키, 개인키 생성하기
@@ -52,19 +49,38 @@ public class KeyController {
             saveKeyToFile(publicKey, publicKeyFileName);
 
             model.addAttribute("Key", "KeyGenerated");
-        } catch (NoSuchAlgorithmException | IOException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
         return "key";
     }
 
-    private void saveKeyToFile(Object key, String fileName) throws IOException {
-        File file = new File(fileName);
+    private void saveKeyToFile(Object key, String fileName) {
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+//        windows
+        String filePath = "C:/Users/snowm/IdeaProjects/security_project/" + fileName;
+//        mac
+
+
+//        (코드리뷰-함부로 예외처리 어쩌구)
+//        // 2. 파일이 이미 존재하는 경우 예외 처리
+//        if (file.exists()) {
+//            System.out.println("파일이 이미 존재합니다.");
+//            return;
+//        }
+//        // 3. 파일에 대한 쓰기 권한이 없는 경우 예외 처리
+//        if (!file.getParentFile().canWrite()) {
+//            System.out.println("파일에 대한 쓰기 권한이 없습니다.");
+//            return;
+//        }
+
+//        코드리뷰 : throws대신 catch로 잡기
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             objectOutputStream.writeObject(key);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 //    @GetMapping("/home")
