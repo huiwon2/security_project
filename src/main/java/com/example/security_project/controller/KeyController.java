@@ -18,7 +18,7 @@ public class KeyController {
 //    public String key() {
 //        return "/key"; // key.html을 렌더링하여 응답으로 보냄
 //    }
-    @PostMapping("/key")
+    @PostMapping("key")
     public String generateKeys(@RequestParam("secretKey") String secretKeyFileName,
                                @RequestParam("privateKey") String privateKeyFileName,
                                @RequestParam("publicKey") String publicKeyFileName,
@@ -30,9 +30,8 @@ public class KeyController {
             Key secretKey = keyGenerator.generateKey();
 //         대칭키 저장하기
             saveKeyToFile(secretKey, secretKeyFileName);
-            model.addAttribute("대칭키 생성 완료", "대칭키 생성이 완료되었습니다.");
+
         }catch (NoSuchAlgorithmException | IOException e){
-            model.addAttribute("대칭키 생성 오류", "키 생성 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
 //        공개키, 개인키 생성하기
@@ -51,9 +50,8 @@ public class KeyController {
 //          공개키 저장
             saveKeyToFile(publicKey, publicKeyFileName);
 
-            model.addAttribute("개인키, 공개키 생성 완료", "개인키와 공개키 생성이 완료되었습니다.");
+            model.addAttribute("Key", "KeyGenerated");
         } catch (NoSuchAlgorithmException | IOException e) {
-            model.addAttribute("개인키, 공개키 생성 오류", "키 생성 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
 
