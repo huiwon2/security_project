@@ -66,8 +66,8 @@ public class KeyController {
             objectOutputStream.writeObject(key);
         }
     }
-    @GetMapping("/home")
-    public String redirectToHome() {
-        return "redirect:/home.html"; // "/home.html"로 리다이렉트
-    }
+//    @GetMapping("/home")
+//    public String redirectToHome() {
+//        return "redirect:/home.html"; // "/home.html"로 리다이렉트
+//    }
 }
