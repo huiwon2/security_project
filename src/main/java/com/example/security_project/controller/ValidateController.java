@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ValidateController {
     @RequestMapping("/validate")
     public String Validate(){
-        return "";
+        return "/validate";
     }
 }
