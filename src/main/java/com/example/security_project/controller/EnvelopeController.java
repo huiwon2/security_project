@@ -53,36 +53,38 @@ public class EnvelopeController {
         }
         Key secretKey;
 
+        // 개인키 읽어들이기
+        try(FileInputStream fileInputStream = new FileInputStream(privateKeyFileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            try {
+                privateKey = (PrivateKey) objectInputStream.readObject();
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 대칭키 읽어들이기
+        try(FileInputStream fileInputStream = new FileInputStream(secretKeyFileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+            try {
+                secretKey = (Key) objectInputStream.readObject();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 //      원본 데이터 바이트 배열에 저장
         byte[] bufferData = data.getBytes();
         return "전자봉투 생성이 완료되었습니다";
     }
 
-    // 개인키 읽어들이기
-        try(FileInputStream fileInputStream = new FileInputStream(privateKeyFileName);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-        try {
-            privateKey = (PrivateKey) objectInputStream.readObject();
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
-    } catch (IOException | ClassNotFoundException e) {
-        throw new RuntimeException(e);
-    }
 
-    // 대칭키 읽어들이기
-        try(FileInputStream fileInputStream = new FileInputStream(secretKeyFileName);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
-        try {
-            secretKey = (Key) objectInputStream.readObject();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
-    } catch (IOException | ClassNotFoundException e) {
-        throw new RuntimeException(e);
-    }
 
     @GetMapping("/home")
     public String redirectToHome() {
