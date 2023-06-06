@@ -115,9 +115,22 @@ public class ValidateController {
                 baos.write(buffer, 0, bytesRead);
             }
             byte[] decryptedData = baos.toByteArray();
+            //        서명 검증하기
+            try {
+                boolean result = signature_verify.verify(buffer);
+//                System.out.println("서명 검증 결과: " + result);
+                String verificationResult = "서명 검증 결과: " + result;
+                model.addAttribute("verificationResult", verificationResult);
+                return verificationResult;
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
+
     }
+
     private void saveSignatureFile ( byte[] signature, String fileName) throws IOException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
