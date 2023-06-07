@@ -62,7 +62,11 @@
         <button href="#" class="button">공개키 입력</button>
     </div>
     <div class="form-container">
-        <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.validatefileName}">
+        <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}">
+        <button href="#" class="button">대칭키 입력</button>
+    </div>
+    <div class="form-container">
+        <input type="text" name="validateFileName" th:placeholder="#{placeholder.validatefileName}">
         <button href="#" class="button" onclick="validateEnvelope()">전자봉투 검증</button>
     </div>
     <br>
@@ -79,31 +83,34 @@
     function validateEnvelope() {
         const data = document.getElementsByName("data")[0].value;
         const publicKey = document.getElementsByName("publicKey")[0].value;
-        const envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
+        const secretKey = document.getElementsByName("secretKey")[0].value;
+        const validateFileName = document.getElementsByName("validateFileName")[0].value;
         $(document).ready(function() {
             $(".button").click(function() {
                 const data = $("input[name='data']").val();
+                const publicKey = $("input[name='publicKey']").val();
                 const secretKey = $("input[name='secretKey']").val();
-                const privateKey = $("input[name='privateKey']").val();
-                const envelopeFileName = $("input[name='envelopeFileName']").val();
+                const validateFileName = $("input[name='validateFileName']").val();
 
                 $.ajax({
                     type: "POST",
-                    url: "/envelope",
+                    url: "/validate",
                     data: {
                         data: data,
                         secretKey: secretKey,
-                        privateKey: privateKey,
-                        envelopeFileName: envelopeFileName
+                        publicKey: publicKey,
+                        validateFileName: validateFileName
                     },
                     success: function(response) {
-                        // 요청 성공 시 동작할 코드
+                        // Request successful
                         console.log(response);
-                        // 페이지 새로고침
+                        // Display verification result in an alert dialog
+                        alert("전자봉투 검증 결과: " + response.verificationResult);
+                        // Refresh the page
                         window.location.reload();
                     },
                     error: function(xhr, status, error) {
-                        // 요청 실패 시 동작할 코드
+                        // Request failed
                         console.log(error);
                     }
                 });
