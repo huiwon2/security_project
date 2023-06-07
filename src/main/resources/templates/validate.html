@@ -70,7 +70,8 @@
         <button href="home" class="home-button" onclick="redirectToHome()">홈으로</button>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
     function redirectToHome() {
         window.location.href = "home"; // MainController의 home() 메서드로 리다이렉트
     }

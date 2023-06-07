@@ -81,8 +81,11 @@
     <div class="button-container">
         <button href="home" class="home-button" onclick="redirectToHome()">홈으로</button>
     </div>
+    <div id="result" style="margin-top: 20px; text-align: center;"></div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
     function createEnvelope() {
         var data = document.getElementsByName("data")[0].value;
         var privateKey = document.getElementsByName("privateKey")[0].value;
