@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>키 생성하기</title>
+    <title>전자봉투 검증하기</title>
     <style>
         .container {
             padding: 20px;
@@ -21,7 +21,7 @@
         }
         .form-container input[type="text"] {
             padding: 10px;
-            width: 300px;
+            width: 50%;
         }
         .form-container input[type="text"]::placeholder {
             opacity: 0.5;
@@ -52,40 +52,61 @@
 </head>
 <body>
 <div class="container">
-    <h2>전자봉투 만들기</h2>
+    <h2>전자봉투 검증하기</h2>
     <div class="form-container">
-        <div class="text-container">
-            <input type="text" name="data" th:placeholder="#{placeholder.inputText}" style="width: 400px;">
-            <button href="#" class="button">텍스트 입력</button>
-        </div>
+        <input type="text" name="data" th:placeholder="#{placeholder.inputText}">
     </div>
     <div class="form-container">
-        <div class="text-container">
-            <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}" style="width: 400px;">
-            <button href="#" class="button">비밀키 입력</button>
-        </div>
+        <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}">
     </div>
     <div class="form-container">
-        <div class="text-container">
-            <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}" style="width: 400px;">
-            <button href="#" class="button">대칭키 입력</button>
-        </div>
-    </div>
-    <div class="form-container">
-        <div class="text-container">
-            <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.envelopefileName}" style="width: 400px;">
-            <button href="#" class="button">전자봉투 생성</button>
-        </div>
+        <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.validatefileName}">
+        <button href="#" class="button" onclick="validateEnvelope()">전자봉투 검증</button>
     </div>
     <br>
     <div class="button-container">
         <button href="home" class="home-button" onclick="redirectToHome()">홈으로</button>
     </div>
 </div>
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
     function redirectToHome() {
         window.location.href = "home"; // MainController의 home() 메서드로 리다이렉트
     }
+
+    function validateEnvelope() {
+        const data = document.getElementsByName("data")[0].value;
+        const publicKey = document.getElementsByName("publicKey")[0].value;
+        const envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
+        $(document).ready(function () {
+            $(".button").click(function () {
+                var data = $("input[name='data']").val();
+                var publicKey = $("input[name='publicKey']").val();
+                var envelopeFileName = $("input[name='envelopeFileName']").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/validate",
+                    data: {
+                        data: data,
+                        publicKey: publicKey,
+                        envelopeFileName: envelopeFileName
+                    },
+                    success: function (response) {
+                        // 요청 성공 시 동작할 코드
+                        console.log(response);
+                        // 페이지 새로고침
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // 요청 실패 시 동작할 코드
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    }
+
 </script>
+
 </body>
 </html>
