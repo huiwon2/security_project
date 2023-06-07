@@ -7,6 +7,10 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+//    private static String main = "/home";
+//    private static String key = "/key";
+//    private static String envelope = "/envelope";
+//    private static String validate = "/validate";
     private static final String HOME_FORM = "/home";
     private static final String KEY_FORM = "/key";
     private static final String ENVELOPE_FORM = "/envelope";
