@@ -15,15 +15,15 @@ import java.security.*;
 
 @Controller
 public class ValidateController {
-    @RequestMapping("validate")
-    public String Validate(){
-        return "/validate";
-    }
+//    @RequestMapping("validate")
+//    public String Validate(){
+//        return "/validate";
+//    }
     @PostMapping("validate")
     public String ValidateDocument(@RequestParam("data") String data,
                                    @RequestParam("secretKey") String secretKeyFileName,
-                                   @RequestParam("publiKey") String publicKeyFileName,
-                                   @RequestParam("envelopeFileName") String envelopeFileName,
+                                   @RequestParam("publicKey") String publicKeyFileName,
+                                   @RequestParam("validateFileName") String validateFileName,
                                    Model model) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
         String keyAlgorithm = "RSA";
         String signAlgorithm = "SHA256withRSA";
@@ -39,7 +39,7 @@ public class ValidateController {
         keyPairGen.initialize(1024);
         KeyPair keyPair = keyPairGen.generateKeyPair();
 
-        PublicKey publicKey = keyPair.getPublic();
+        PublicKey publicKey;
         PrivateKey privateKey = keyPair.getPrivate();
 
         //        secretKey 객체 생성
@@ -105,7 +105,7 @@ public class ValidateController {
         }
 
 //      서명 정보 출력하기(복호화 후 출력)
-        try (FileInputStream fis = new FileInputStream(envelopeFileName);
+        try (FileInputStream fis = new FileInputStream(validateFileName);
              CipherInputStream cis = new CipherInputStream(fis, cipher);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[128];
@@ -118,8 +118,7 @@ public class ValidateController {
             try {
                 boolean result = signature_verify.verify(buffer);
 //                System.out.println("서명 검증 결과: " + result);
-                String verificationResult = "서명 검증 결과: " + result;
-                model.addAttribute("verificationResult투", verificationResult);
+                model.addAttribute("verificationResult", result);
                 return "validate";
             } catch (SignatureException e) {
                 throw new RuntimeException(e);
