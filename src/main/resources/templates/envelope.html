@@ -74,7 +74,7 @@
     <div class="form-container">
         <div class="text-container">
             <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.envelopefileName}" style="width: 400px;">
-            <button href="#" class="button" onclick="createEnvelope()">전자봉투 생성</button>
+            <button class="button" onclick="createEnvelope()">전자봉투 생성</button>
         </div>
     </div>
     <br>
@@ -87,13 +87,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:inline="javascript">
     function createEnvelope() {
-        var data = document.getElementsByName("data")[0].value;
-        var privateKey = document.getElementsByName("privateKey")[0].value;
-        var secretKey = document.getElementsByName("secretKey")[0].value;
-        var envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
+        const data = document.getElementsByName("data")[0].value;
+        const privateKey = document.getElementsByName("privateKey")[0].value;
+        const secretKey = document.getElementsByName("secretKey")[0].value;
+        const envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
 
         // AJAX를 사용하여 서버로 데이터 전송
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open("POST", "envelope");
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
@@ -102,7 +102,9 @@
                     // 성공적으로 응답을 받았을 때 처리
                     var response = xhr.responseText;
                     // 응답을 처리하여 결과를 표시
-                    document.getElementById("result").textContent = response;
+                    // document.getElementById("result").textContent = response;
+                    // 전자봉투 생성 완료 메시지를 alert 창으로 표시
+                    alert("전자봉투 생성이 완료되었습니다.");
                 } else {
                     // 응답에 실패했을 때 처리
                     console.error("Request failed. Status: " + xhr.status);
@@ -115,6 +117,7 @@
             "&secretKey=" + encodeURIComponent(secretKey) +
             "&envelopeFileName=" + encodeURIComponent(envelopeFileName)
         );
+        redirectToHome();
     }
 
     function redirectToHome() {

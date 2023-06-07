@@ -15,13 +15,11 @@ import java.security.*;
 
 @Controller
 public class EnvelopeController {
-    public EnvelopeController() throws IOException {
-    }
 
-    @RequestMapping("envelope")
-    public String Envelope(){
-        return "/envelope";
-    }
+//    @RequestMapping("envelope")
+//    public String Envelope(){
+//        return "envelope";
+//    }
     @PostMapping("envelope")
     public String EnvelopeDocument(@RequestParam("data") String data,
                                    @RequestParam("secretKey") String secretKeyFileName,
@@ -113,7 +111,7 @@ public class EnvelopeController {
             throw new RuntimeException(e);
         }
         model.addAttribute("message", "전자봉투 생성이 완료되었습니다");
-        return "envelope";
+        return "home";
     }
 
 //    @GetMapping("/home")
