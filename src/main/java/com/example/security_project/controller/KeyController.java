@@ -66,6 +66,7 @@ public class KeyController {
 //        windows
         String filePath = "C:/Users/snowm/IdeaProjects/security_project/" + fileName;
 //        mac
+        String macFilePath = "/Users/ihuiwon/IdeaProjects/security_project" + fileName;
 
 
 //        (코드리뷰-함부로 예외처리 어쩌구)
