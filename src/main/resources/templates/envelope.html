@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>전자봉투 검증하기</title>
+    <title>전자봉투 생성하기</title>
     <style>
         .container {
             padding: 20px;
@@ -21,7 +21,7 @@
         }
         .form-container input[type="text"] {
             padding: 10px;
-            width: 50%;
+            width: 300px;
         }
         .form-container input[type="text"]::placeholder {
             opacity: 0.5;
@@ -52,16 +52,30 @@
 </head>
 <body>
 <div class="container">
-    <h2>전자봉투 검증하기</h2>
+    <h2>전자봉투 만들기</h2>
     <div class="form-container">
-        <input type="text" name="data" th:placeholder="#{placeholder.inputText}">
+        <div class="text-container">
+            <input type="text" name="data" th:placeholder="#{placeholder.inputText}" style="width: 400px;">
+            <button href="#" class="button">텍스트 입력</button>
+        </div>
     </div>
     <div class="form-container">
-        <input type="text" name="publicKey" th:placeholder="#{placeholder.publicKey}">
+        <div class="text-container">
+            <input type="text" name="privateKey" th:placeholder="#{placeholder.privateKey}" style="width: 400px;">
+            <button href="#" class="button">비밀키 입력</button>
+        </div>
     </div>
     <div class="form-container">
-        <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.validatefileName}">
-        <button href="#" class="button" onclick="validateEnvelope()">전자봉투 검증</button>
+        <div class="text-container">
+            <input type="text" name="secretKey" th:placeholder="#{placeholder.secretKey}" style="width: 400px;">
+            <button href="#" class="button">대칭키 입력</button>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="text-container">
+            <input type="text" name="envelopeFileName" th:placeholder="#{placeholder.envelopefileName}" style="width: 400px;">
+            <button href="#" class="button" onclick="createEnvelope()">전자봉투 생성</button>
+        </div>
     </div>
     <br>
     <div class="button-container">
@@ -69,43 +83,40 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    function createEnvelope() {
+        var data = document.getElementsByName("data")[0].value;
+        var privateKey = document.getElementsByName("privateKey")[0].value;
+        var secretKey = document.getElementsByName("secretKey")[0].value;
+        var envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
+
+        // AJAX를 사용하여 서버로 데이터 전송
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "envelope");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // 성공적으로 응답을 받았을 때 처리
+                    var response = xhr.responseText;
+                    // 응답을 처리하여 결과를 표시
+                    document.getElementById("result").textContent = response;
+                } else {
+                    // 응답에 실패했을 때 처리
+                    console.error("Request failed. Status: " + xhr.status);
+                }
+            }
+        };
+        xhr.send(
+            "data=" + encodeURIComponent(data) +
+            "&privateKey=" + encodeURIComponent(privateKey) +
+            "&secretKey=" + encodeURIComponent(secretKey) +
+            "&envelopeFileName=" + encodeURIComponent(envelopeFileName)
+        );
+    }
+
     function redirectToHome() {
         window.location.href = "home"; // MainController의 home() 메서드로 리다이렉트
     }
-
-    function validateEnvelope() {
-        const data = document.getElementsByName("data")[0].value;
-        const publicKey = document.getElementsByName("publicKey")[0].value;
-        const envelopeFileName = document.getElementsByName("envelopeFileName")[0].value;
-        $(document).ready(function () {
-            $(".button").click(function () {
-                var data = $("input[name='data']").val();
-                var publicKey = $("input[name='publicKey']").val();
-                var envelopeFileName = $("input[name='envelopeFileName']").val();
-
-                $.ajax({
-                    type: "POST",
-                    url: "/validate",
-                    data: {
-                        data: data,
-                        publicKey: publicKey,
-                        envelopeFileName: envelopeFileName
-                    },
-                    success: function (response) {
-                        // 요청 성공 시 동작할 코드
-                        console.log(response);
-                        // 페이지 새로고침
-                        window.location.reload();
-                    },
-                    error: function (xhr, status, error) {
-                        // 요청 실패 시 동작할 코드
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    }
-
 </script>
 
 </body>

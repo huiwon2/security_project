@@ -119,7 +119,7 @@ public class ValidateController {
                 boolean result = signature_verify.verify(buffer);
 //                System.out.println("서명 검증 결과: " + result);
                 String verificationResult = "서명 검증 결과: " + result;
-                model.addAttribute("verificationResult", verificationResult);
+                model.addAttribute("verificationResult투", verificationResult);
                 return "validate";
             } catch (SignatureException e) {
                 throw new RuntimeException(e);
