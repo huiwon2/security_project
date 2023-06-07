@@ -113,7 +113,7 @@ public class EnvelopeController {
             throw new RuntimeException(e);
         }
         model.addAttribute("message", "전자봉투 생성이 완료되었습니다");
-        return "전자봉투 생성이 완료되었습니다";
+        return "envelope";
     }
 
 //    @GetMapping("/home")
